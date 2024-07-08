@@ -1,29 +1,20 @@
 package dev.lemonjuice.loveloop.scene.week.base;
 
 import dev.lemonjuice.loveloop.LoveLoop;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
-/**
- * This is the class that creates all the basic scenes for the Visual Novel portion of the weekly scenes for the game.
- *
- * @author Lemon
- */
 public class BaseSceneTemplate {
-
-    /**
-     * Creates the base scene for the Visual Novel portion of the game.
-     * This requires the creation of a background image, a character image, and a text box.
-     *
-     * @return The base scene for the Visual Novel portion of the game.
-     */
-    public static Scene createBaseScene() {
-        Pane root = new Pane();
+    public static Scene createBaseScene() throws FileNotFoundException {
+        StackPane root = new StackPane();
         Scene baseScene = new Scene(root, LoveLoop.WINDOW_WIDTH, LoveLoop.WINDOW_HEIGHT);
-        System.out.println("Base Scene Created");
 
         // Add Background Image
         // No Image Provided Yet
@@ -31,21 +22,26 @@ public class BaseSceneTemplate {
         // Add Character Image
         // No Image Provided Yet
 
-        // Add Text Box
-        Label textBox = new Label();
+        // Add Text Box (Unified)
+        int textBoxYHeight = 200;
+
+        // Add Text Box (Graphic Section)
+        FileInputStream inputStream = new FileInputStream("src/main/resources/dev/lemonjuice/loveloop/image/container/textbox.png");
+        Image textBoxImage = new Image(inputStream);
+        ImageView textBoxImageView = new ImageView(textBoxImage);
+        StackPane.setAlignment(textBoxImageView, javafx.geometry.Pos.BOTTOM_CENTER);
+        StackPane.setMargin(textBoxImageView, new Insets(0, 0, 50, 0)); // Adjust bottom margin as needed
+
+        // Add Text Box (Text Section)
+        Label textBox = new Label("Test Text");
         textBox.setWrapText(true);
         textBox.setStyle("-fx-font-size: 12");
-        int textBoxXPadding = 50;
-        int textBoxYHeight = 200;
-        int textBoxYPadding = textBoxYHeight + 50;
-        textBox.setLayoutX(textBoxXPadding);
-        textBox.setMaxWidth(LoveLoop.WINDOW_WIDTH - (textBoxXPadding * 2));
-        textBox.setLayoutY(LoveLoop.WINDOW_HEIGHT - textBoxYPadding);
-        textBox.setMaxHeight(textBoxYHeight);
+        textBox.setPrefWidth(LoveLoop.WINDOW_WIDTH - 100); // Adjust padding as needed
+        textBox.setPrefHeight(textBoxYHeight);
+        StackPane.setAlignment(textBox, javafx.geometry.Pos.BOTTOM_CENTER);
+        StackPane.setMargin(textBox, new Insets(0, 0, 50, 0)); // Adjust bottom margin as needed
 
-        textBox.setText("Test Text");
-
-        root.getChildren().addAll(textBox);
+        root.getChildren().addAll(textBoxImageView, textBox);
         return baseScene;
     }
 }

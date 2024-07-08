@@ -1,6 +1,7 @@
 package dev.lemonjuice.loveloop.scene.menu;
 
 import dev.lemonjuice.loveloop.LoveLoop;
+
 import dev.lemonjuice.loveloop.scene.week.base.BaseSceneTemplate;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -34,7 +35,12 @@ public class MenuScenes {
         startButton.setStyle("-fx-font-size: 20");
         startButton.setOnAction(e -> {
             // Load the base scene of the game for now
-            Scene baseScene = BaseSceneTemplate.createBaseScene();
+            Scene baseScene = null;
+            try {
+                baseScene = BaseSceneTemplate.createBaseScene();
+            } catch (FileNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
             stage.setScene(baseScene);
         });
 
